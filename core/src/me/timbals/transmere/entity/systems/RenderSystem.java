@@ -20,12 +20,8 @@ public class RenderSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
 
-    private SpriteBatch batch;
-
     public RenderSystem() {
         super();
-
-        batch = new SpriteBatch();
     }
 
     @Override
@@ -37,6 +33,9 @@ public class RenderSystem extends EntitySystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
+        SpriteBatch batch = Game.batch;
+
+        batch.setProjectionMatrix(Game.camera.projection);
         batch.begin();
 
         for(Entity entity : entities) {
