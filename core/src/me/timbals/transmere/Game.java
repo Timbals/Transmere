@@ -4,10 +4,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -19,6 +23,7 @@ import me.timbals.transmere.entity.components.VelocityComponent;
 import me.timbals.transmere.entity.systems.InputSystem;
 import me.timbals.transmere.entity.systems.MovementSystem;
 import me.timbals.transmere.entity.systems.RenderSystem;
+import me.timbals.transmere.level.Level;
 
 public class Game extends ApplicationAdapter {
 
@@ -34,6 +39,8 @@ public class Game extends ApplicationAdapter {
 	public static SpriteBatch batch;
 	public static OrthographicCamera camera;
 	public static Viewport viewport;
+
+	public static AssetManager assetManager;
 	
 	@Override
 	public void create () {
@@ -47,6 +54,9 @@ public class Game extends ApplicationAdapter {
 		entityEngine.addSystem(new RenderSystem());
 		entityEngine.addSystem(new InputSystem());
 
+		assetManager = new AssetManager();
+		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+
 		Entity entity = entityEngine.createEntity();
 		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
 		positionComponent.x = WIDTH / 2;
@@ -57,11 +67,13 @@ public class Game extends ApplicationAdapter {
 		textureComponent.texture = new Texture("badlogic.jpg");
 		entity.add(textureComponent);
 		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
-		sizeComponent.width = 128;
-		sizeComponent.height = 128;
+		sizeComponent.width = 64;
+		sizeComponent.height = 64;
 		entity.add(sizeComponent);
 		entity.add(entityEngine.createComponent(InputComponent.class));
 		entityEngine.addEntity(entity);
+
+		Level.loadMap("grassview.tmx");
 	}
 
 	@Override
@@ -71,6 +83,8 @@ public class Game extends ApplicationAdapter {
 		camera.position.set(Game.WIDTH / 2, Game.HEIGHT / 2, 0);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
+
+		Level.setView(camera);
 
 		SCREEN_WIDTH = width;
 		SCREEN_HEIGHT = height;
@@ -82,6 +96,8 @@ public class Game extends ApplicationAdapter {
 
 		Gdx.gl.glClearColor(1, 1, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		Level.render();
 
 		entityEngine.update(delta);
 	}
