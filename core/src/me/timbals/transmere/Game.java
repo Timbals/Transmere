@@ -15,11 +15,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import me.timbals.transmere.entity.components.CameraFollowComponent;
 import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
 import me.timbals.transmere.entity.components.TextureComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
+import me.timbals.transmere.entity.systems.CameraFollowSystem;
 import me.timbals.transmere.entity.systems.InputSystem;
 import me.timbals.transmere.entity.systems.MovementSystem;
 import me.timbals.transmere.entity.systems.RenderSystem;
@@ -53,6 +55,7 @@ public class Game extends ApplicationAdapter {
 		entityEngine.addSystem(new MovementSystem());
 		entityEngine.addSystem(new RenderSystem());
 		entityEngine.addSystem(new InputSystem());
+		entityEngine.addSystem(new CameraFollowSystem());
 
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -71,6 +74,7 @@ public class Game extends ApplicationAdapter {
 		sizeComponent.height = 64;
 		entity.add(sizeComponent);
 		entity.add(entityEngine.createComponent(InputComponent.class));
+		entity.add(entityEngine.createComponent(CameraFollowComponent.class));
 		entityEngine.addEntity(entity);
 
 		Level.loadMap("grassview.tmx");
@@ -93,6 +97,10 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void render () {
 		float delta = Gdx.graphics.getDeltaTime() / (1f / TARGET_FPS); // this will make delta 1 if target fps is exactly reached
+
+		camera.update();
+		Level.setView(camera);
+		batch.setProjectionMatrix(camera.combined);
 
 		Gdx.gl.glClearColor(1, 1, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
