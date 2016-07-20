@@ -11,17 +11,10 @@ public class VelocityComponent implements Component, Pool.Poolable {
     public float x = 0.0f;
     public float y = 0.0f;
 
-    public VelocityComponent() {
-    }
-
-    public VelocityComponent(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
     @Override
     public void reset() {
         x = 0.0f;
         y = 0.0f;
     }
+
 }

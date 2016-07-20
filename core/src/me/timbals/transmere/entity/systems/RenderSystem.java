@@ -35,7 +35,6 @@ public class RenderSystem extends EntitySystem {
 
         SpriteBatch batch = Game.batch;
 
-        batch.setProjectionMatrix(Game.camera.projection);
         batch.begin();
 
         for(Entity entity : entities) {

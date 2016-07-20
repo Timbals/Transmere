@@ -11,12 +11,9 @@ public class TextureComponent implements Component, Pool.Poolable {
 
     public Texture texture;
 
-    public TextureComponent(Texture texture) {
-        this.texture = texture;
-    }
-
     @Override
     public void reset() {
         texture = null;
     }
+
 }

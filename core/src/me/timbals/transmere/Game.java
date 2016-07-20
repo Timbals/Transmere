@@ -22,10 +22,10 @@ import me.timbals.transmere.entity.systems.RenderSystem;
 
 public class Game extends ApplicationAdapter {
 
+	public static final int WIDTH = 1280; // virtual resolution for pixel coordinates
 	public static final int HEIGHT = 720;
-	public static final int WIDTH = HEIGHT / 9 * 16;
-	public static int SCREEN_HEIGHT = HEIGHT;
 	public static int SCREEN_WIDTH = WIDTH;
+	public static int SCREEN_HEIGHT = HEIGHT;
 
 	public static final float TARGET_FPS = 60;
 
@@ -48,11 +48,19 @@ public class Game extends ApplicationAdapter {
 		entityEngine.addSystem(new InputSystem());
 
 		Entity entity = entityEngine.createEntity();
-		entity.add(new PositionComponent(20, 20));
-		entity.add(new VelocityComponent(24, 24));
-		entity.add(new TextureComponent(new Texture("badlogic.jpg")));
-		entity.add(new SizeComponent(64, 64));
-		entity.add(new InputComponent());
+		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
+		positionComponent.x = WIDTH / 2;
+		positionComponent.y = HEIGHT / 2;
+		entity.add(positionComponent);
+		entity.add(entityEngine.createComponent(VelocityComponent.class));
+		TextureComponent textureComponent = entityEngine.createComponent(TextureComponent.class);
+		textureComponent.texture = new Texture("badlogic.jpg");
+		entity.add(textureComponent);
+		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
+		sizeComponent.width = 128;
+		sizeComponent.height = 128;
+		entity.add(sizeComponent);
+		entity.add(entityEngine.createComponent(InputComponent.class));
 		entityEngine.addEntity(entity);
 	}
 
@@ -60,6 +68,10 @@ public class Game extends ApplicationAdapter {
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		viewport.update(width, height);
+		camera.position.set(Game.WIDTH / 2, Game.HEIGHT / 2, 0);
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
+
 		SCREEN_WIDTH = width;
 		SCREEN_HEIGHT = height;
 	}
