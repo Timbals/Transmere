@@ -82,7 +82,7 @@ public class Game extends ApplicationAdapter {
 		entity.add(entityEngine.createComponent(CameraFollowComponent.class));
 		entityEngine.addEntity(entity);
 
-		Level.loadMap("grassview.tmx");
+		Level.loadMap("dev.tmx");
 	}
 
 	@Override
