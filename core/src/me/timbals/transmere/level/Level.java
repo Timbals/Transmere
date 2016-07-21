@@ -18,9 +18,9 @@ public class Level {
     private static OrthographicCamera camera;
 
     public static void loadMap(String map) {
-        Game.assetManager.load(map, TiledMap.class);
-        Game.assetManager.finishLoadingAsset(map);
-        tiledMap = Game.assetManager.get(map, TiledMap.class);
+        Game.getAssetManager().load(map, TiledMap.class);
+        Game.getAssetManager().finishLoadingAsset(map);
+        tiledMap = Game.getAssetManager().get(map, TiledMap.class);
 
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 2f);
         if(camera != null)

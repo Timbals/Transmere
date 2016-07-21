@@ -15,7 +15,7 @@ import me.timbals.transmere.entity.components.VelocityComponent;
  */
 public class InputSystem extends IteratingSystem{
 
-    private static final float speed = 16f;
+    private static final float speed = 6f;
 
     public InputSystem() {
         super(Family.all(VelocityComponent.class, InputComponent.class).get());

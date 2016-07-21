@@ -26,14 +26,14 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = Game.entityEngine.getEntitiesFor(Family.all(PositionComponent.class, TextureComponent.class).get());
+        entities = Game.getEntityEngine().getEntitiesFor(Family.all(PositionComponent.class, TextureComponent.class).get());
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        SpriteBatch batch = Game.batch;
+        SpriteBatch batch = Game.getBatch();
 
         batch.begin();
 

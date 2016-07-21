@@ -36,14 +36,19 @@ public class Game extends ApplicationAdapter {
 
 	public static final float TARGET_FPS = 60;
 
-	public static PooledEngine entityEngine;
+	private static Game instance;
 
-	public static SpriteBatch batch;
-	public static OrthographicCamera camera;
-	public static Viewport viewport;
+	public PooledEngine entityEngine;
 
-	public static AssetManager assetManager;
-	
+	public SpriteBatch batch;
+	public OrthographicCamera camera;
+	public Viewport viewport;
+
+	public AssetManager assetManager;
+
+	private Game() {
+	}
+
 	@Override
 	public void create () {
 		entityEngine = new PooledEngine();
@@ -109,8 +114,35 @@ public class Game extends ApplicationAdapter {
 
 		entityEngine.update(delta);
 	}
-	
+
+	public static PooledEngine getEntityEngine() {
+		return getInstance().entityEngine;
+	}
+
+	public static SpriteBatch getBatch() {
+		return getInstance().batch;
+	}
+
+	public static OrthographicCamera getCamera() {
+		return getInstance().camera;
+	}
+
+	public static Viewport getViewport() {
+		return getInstance().viewport;
+	}
+
+	public static AssetManager getAssetManager() {
+		return getInstance().assetManager;
+	}
+
+	public static synchronized Game getInstance() {
+		if(instance == null)
+			instance = new Game();
+		return instance;
+	}
+
 	@Override
 	public void dispose () {
 	}
+
 }

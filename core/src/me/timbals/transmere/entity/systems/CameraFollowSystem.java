@@ -24,7 +24,7 @@ public class CameraFollowSystem extends IteratingSystem {
         PositionComponent positionComponent = Mappers.positionMapper.get(entity);
         CameraFollowComponent cameraFollowComponent = Mappers.cameraFollowMapper.get(entity);
 
-        Vector3 cameraPosition = Game.camera.position;
+        Vector3 cameraPosition = Game.getCamera().position;
         cameraPosition.x += (positionComponent.x - cameraPosition.x) * cameraFollowComponent.tween;
         cameraPosition.y += (positionComponent.y - cameraPosition.y) * cameraFollowComponent.tween;
     }
