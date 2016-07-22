@@ -68,15 +68,15 @@ public class Game extends ApplicationAdapter {
 		Entity entity = entityEngine.createEntity();
 		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
 		positionComponent.x = WIDTH / 2;
-		positionComponent.y = HEIGHT / 2;
+		positionComponent.y = 90 * 64;
 		entity.add(positionComponent);
 		entity.add(entityEngine.createComponent(VelocityComponent.class));
 		TextureComponent textureComponent = entityEngine.createComponent(TextureComponent.class);
 		textureComponent.texture = new Texture("badlogic.jpg");
 		entity.add(textureComponent);
 		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
-		sizeComponent.width = 64;
-		sizeComponent.height = 64;
+		sizeComponent.width = 48;
+		sizeComponent.height = 48;
 		entity.add(sizeComponent);
 		entity.add(entityEngine.createComponent(InputComponent.class));
 		entity.add(entityEngine.createComponent(CameraFollowComponent.class));

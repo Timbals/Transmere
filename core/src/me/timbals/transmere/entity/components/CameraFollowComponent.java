@@ -8,11 +8,11 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class CameraFollowComponent implements Component, Pool.Poolable {
 
-    public float tween = 0.07f;
+    public float tween = 0.12f;
 
     @Override
     public void reset() {
-        tween = 0.7f;
+        tween = 0.12f;
     }
 
 }
