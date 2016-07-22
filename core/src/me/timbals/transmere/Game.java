@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import me.timbals.transmere.entity.components.CameraFollowComponent;
+import me.timbals.transmere.entity.components.CollisionComponent;
 import me.timbals.transmere.entity.components.HealthComponent;
 import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
@@ -23,6 +24,7 @@ import me.timbals.transmere.entity.components.SizeComponent;
 import me.timbals.transmere.entity.components.TextureComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
 import me.timbals.transmere.entity.systems.CameraFollowSystem;
+import me.timbals.transmere.entity.systems.CollisionSystem;
 import me.timbals.transmere.entity.systems.InputSystem;
 import me.timbals.transmere.entity.systems.MovementSystem;
 import me.timbals.transmere.entity.systems.RenderSystem;
@@ -62,6 +64,7 @@ public class Game extends ApplicationAdapter {
 		entityEngine.addSystem(new RenderSystem());
 		entityEngine.addSystem(new InputSystem());
 		entityEngine.addSystem(new CameraFollowSystem());
+		entityEngine.addSystem(new CollisionSystem());
 
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -78,7 +81,7 @@ public class Game extends ApplicationAdapter {
 
 		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
 		positionComponent.x = WIDTH / 2;
-		positionComponent.y = 90 * 64;
+		positionComponent.y = 85 * 64;
 		entity.add(positionComponent);
 
 		entity.add(entityEngine.createComponent(VelocityComponent.class));
@@ -97,6 +100,8 @@ public class Game extends ApplicationAdapter {
 		entity.add(entityEngine.createComponent(CameraFollowComponent.class));
 
 		entity.add(entityEngine.createComponent(HealthComponent.class));
+
+		entity.add(entityEngine.createComponent(CollisionComponent.class));
 
 		entityEngine.addEntity(entity);
 	}

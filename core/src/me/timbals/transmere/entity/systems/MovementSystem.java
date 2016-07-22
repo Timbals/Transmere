@@ -15,6 +15,7 @@ public class MovementSystem extends IteratingSystem {
 
     public MovementSystem() {
         super(Family.all(PositionComponent.class, VelocityComponent.class).get());
+        priority = 10;
     }
 
     @Override

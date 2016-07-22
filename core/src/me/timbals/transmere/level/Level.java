@@ -38,4 +38,8 @@ public class Level {
             mapRenderer.render();
     }
 
+    public static TiledMap getTiledMap() {
+        return tiledMap;
+    }
+
 }
