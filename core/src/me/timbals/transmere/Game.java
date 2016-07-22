@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import me.timbals.transmere.entity.components.CameraFollowComponent;
+import me.timbals.transmere.entity.components.HealthComponent;
 import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
@@ -65,24 +66,61 @@ public class Game extends ApplicationAdapter {
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 
+		Level.loadMap("dev.tmx");
+
+		addEnemy();
+		addPlayer();
+	}
+
+	// temporary
+	public void addPlayer() {
 		Entity entity = entityEngine.createEntity();
+
 		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
 		positionComponent.x = WIDTH / 2;
 		positionComponent.y = 90 * 64;
 		entity.add(positionComponent);
+
 		entity.add(entityEngine.createComponent(VelocityComponent.class));
+
 		TextureComponent textureComponent = entityEngine.createComponent(TextureComponent.class);
 		textureComponent.texture = new Texture("badlogic.jpg");
 		entity.add(textureComponent);
+
 		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
 		sizeComponent.width = 48;
 		sizeComponent.height = 48;
 		entity.add(sizeComponent);
-		entity.add(entityEngine.createComponent(InputComponent.class));
-		entity.add(entityEngine.createComponent(CameraFollowComponent.class));
-		entityEngine.addEntity(entity);
 
-		Level.loadMap("dev.tmx");
+		entity.add(entityEngine.createComponent(InputComponent.class));
+
+		entity.add(entityEngine.createComponent(CameraFollowComponent.class));
+
+		entity.add(entityEngine.createComponent(HealthComponent.class));
+
+		entityEngine.addEntity(entity);
+	}
+
+	// temporary
+	public void addEnemy() {
+		Entity entity = entityEngine.createEntity();
+
+		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
+		positionComponent.x = WIDTH / 2;
+		positionComponent.y = 96 * 64;
+		entity.add(positionComponent);
+
+		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
+		sizeComponent.width = 128;
+		sizeComponent.height = 128;
+
+		TextureComponent textureComponent = entityEngine.createComponent(TextureComponent.class);
+		textureComponent.texture = new Texture("badlogic.jpg");
+		entity.add(textureComponent);
+
+		entity.add(entityEngine.createComponent(HealthComponent.class));
+
+		entityEngine.addEntity(entity);
 	}
 
 	@Override
