@@ -87,7 +87,7 @@ public class InputSystem extends IteratingSystem {
             sword.add(swordPositionComponent);
 
             SpriteComponent swordSpriteComponent = entityEngine.createComponent(SpriteComponent.class);
-            swordSpriteComponent.sprite.setTexture(new Texture("badlogic.jpg"));
+            swordSpriteComponent.sprite.setTexture(new Texture("textures/sword.png"));
             swordSpriteComponent.sprite.setRegion(swordSpriteComponent.sprite.getTexture());
             sword.add(swordSpriteComponent);
 
