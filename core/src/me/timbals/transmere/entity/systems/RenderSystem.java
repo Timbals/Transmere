@@ -13,7 +13,7 @@ import me.timbals.transmere.entity.Mappers;
 import me.timbals.transmere.entity.components.PositionComponent;
 import me.timbals.transmere.entity.components.RotationComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
-import me.timbals.transmere.entity.components.TextureComponent;
+import me.timbals.transmere.entity.components.SpriteComponent;
 
 /**
  * Created by Tim Balsfulland on 19.07.2016.
@@ -28,7 +28,7 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = Game.getEntityEngine().getEntitiesFor(Family.all(PositionComponent.class, TextureComponent.class).get());
+        entities = Game.getEntityEngine().getEntitiesFor(Family.all(PositionComponent.class, SpriteComponent.class).get());
     }
 
     @Override
@@ -41,32 +41,22 @@ public class RenderSystem extends EntitySystem {
 
         for(Entity entity : entities) {
             PositionComponent positionComponent = Mappers.positionMapper.get(entity);
-            TextureComponent textureComponent = Mappers.textureMapper.get(entity);
+            SpriteComponent spriteComponent = Mappers.spriteMapper.get(entity);
             SizeComponent sizeComponent = Mappers.sizeMapper.get(entity);
             RotationComponent rotationComponent = Mappers.rotationMapper.get(entity);
 
-            if(rotationComponent != null) {
-                Sprite sprite = new Sprite(textureComponent.texture);
-                sprite.setPosition(positionComponent.x, positionComponent.y);
-                if(sizeComponent != null) {
-                    sprite.setSize(sizeComponent.width, sizeComponent.height);
-                    sprite.setOriginCenter();
-                }
-                sprite.setRotation(rotationComponent.rotation * 90);
-                sprite.draw(batch);
-            } else if(sizeComponent != null) {
-                batch.draw(
-                        textureComponent.texture,
-                        positionComponent.x,
-                        positionComponent.y,
-                        sizeComponent.width,
-                        sizeComponent.height);
-            } else {
-                batch.draw(
-                        textureComponent.texture,
-                        positionComponent.x,
-                        positionComponent.y);
+            Sprite sprite = spriteComponent.sprite;
+
+            sprite.setPosition(positionComponent.x, positionComponent.y);
+            if(sizeComponent != null) {
+                sprite.setSize(sizeComponent.width, sizeComponent.height);
             }
+            if(rotationComponent != null) {
+                sprite.setRotation(rotationComponent.rotation * 90);
+                sprite.setOriginCenter();
+            }
+
+            sprite.draw(batch);
         }
 
         batch.end();

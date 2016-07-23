@@ -13,7 +13,7 @@ import me.timbals.transmere.entity.Mappers;
 import me.timbals.transmere.entity.components.CollisionComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
-import me.timbals.transmere.entity.components.TextureComponent;
+import me.timbals.transmere.entity.components.SpriteComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
 import me.timbals.transmere.level.Level;
 
@@ -25,7 +25,7 @@ public class CollisionSystem extends IteratingSystem {
     public CollisionSystem() {
         super(Family
                 .all(PositionComponent.class, CollisionComponent.class)
-                .one(SizeComponent.class, TextureComponent.class)
+                .one(SizeComponent.class, SpriteComponent.class)
                 .get());
     }
 
@@ -33,11 +33,11 @@ public class CollisionSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         PositionComponent positionComponent = Mappers.positionMapper.get(entity);
         SizeComponent sizeComponent = Mappers.sizeMapper.get(entity);
-        TextureComponent textureComponent = Mappers.textureMapper.get(entity);
+        SpriteComponent spriteComponent = Mappers.spriteMapper.get(entity);
         VelocityComponent velocityComponent = Mappers.velocityMapper.get(entity);
 
-        int width = sizeComponent != null ? sizeComponent.width : textureComponent.texture.getWidth();
-        int height = sizeComponent != null ? sizeComponent.height : textureComponent.texture.getHeight();
+        int width = sizeComponent != null ? sizeComponent.width : (int) spriteComponent.sprite.getWidth();
+        int height = sizeComponent != null ? sizeComponent.height : (int) spriteComponent.sprite.getHeight();
 
         if(velocityComponent != null) {
             if(checkTileCollision(new Rectangle(

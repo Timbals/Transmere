@@ -23,7 +23,7 @@ import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
 import me.timbals.transmere.entity.components.RotationComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
-import me.timbals.transmere.entity.components.TextureComponent;
+import me.timbals.transmere.entity.components.SpriteComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
 import me.timbals.transmere.entity.systems.CameraFollowSystem;
 import me.timbals.transmere.entity.systems.CollisionSystem;
@@ -96,9 +96,10 @@ public class Game extends ApplicationAdapter {
 
 		entity.add(entityEngine.createComponent(VelocityComponent.class));
 
-		TextureComponent textureComponent = entityEngine.createComponent(TextureComponent.class);
-		textureComponent.texture = new Texture("badlogic.jpg");
-		entity.add(textureComponent);
+		SpriteComponent spriteComponent = entityEngine.createComponent(SpriteComponent.class);
+		spriteComponent.sprite.setTexture(new Texture("badlogic.jpg"));
+		spriteComponent.sprite.setRegion(spriteComponent.sprite.getTexture());
+		entity.add(spriteComponent);
 
 		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
 		sizeComponent.width = 48;
@@ -128,12 +129,14 @@ public class Game extends ApplicationAdapter {
 		entity.add(positionComponent);
 
 		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
-		sizeComponent.width = 128;
-		sizeComponent.height = 128;
+		sizeComponent.width = 48;
+		sizeComponent.height = 48;
+		entity.add(sizeComponent);
 
-		TextureComponent textureComponent = entityEngine.createComponent(TextureComponent.class);
-		textureComponent.texture = new Texture("badlogic.jpg");
-		entity.add(textureComponent);
+		SpriteComponent spriteComponent = entityEngine.createComponent(SpriteComponent.class);
+		spriteComponent.sprite.setTexture(new Texture("badlogic.jpg"));
+		spriteComponent.sprite.setRegion(spriteComponent.sprite.getTexture());
+		entity.add(spriteComponent);
 
 		entity.add(entityEngine.createComponent(HealthComponent.class));
 

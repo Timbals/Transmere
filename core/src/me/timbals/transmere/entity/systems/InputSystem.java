@@ -16,7 +16,7 @@ import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
 import me.timbals.transmere.entity.components.RotationComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
-import me.timbals.transmere.entity.components.TextureComponent;
+import me.timbals.transmere.entity.components.SpriteComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
 
 /**
@@ -86,13 +86,18 @@ public class InputSystem extends IteratingSystem {
             swordPositionComponent.y = positionComponent.y;
             sword.add(swordPositionComponent);
 
-            TextureComponent swordTextureComponent = entityEngine.createComponent(TextureComponent.class);
-            swordTextureComponent.texture = new Texture("badlogic.jpg");
-            sword.add(swordTextureComponent);
+            SpriteComponent swordSpriteComponent = entityEngine.createComponent(SpriteComponent.class);
+            swordSpriteComponent.sprite.setTexture(new Texture("badlogic.jpg"));
+            swordSpriteComponent.sprite.setRegion(swordSpriteComponent.sprite.getTexture());
+            sword.add(swordSpriteComponent);
 
             DespawnComponent swordDespawnComponent = entityEngine.createComponent(DespawnComponent.class);
             swordDespawnComponent.duration = attackDuration * Game.TARGET_FPS;
             sword.add(swordDespawnComponent);
+
+            RotationComponent swordRotationComponent = entityEngine.createComponent(RotationComponent.class);
+            swordRotationComponent.rotation = rotationComponent.rotation;
+            sword.add(swordRotationComponent);
 
             switch(rotationComponent.rotation) {
                 case 0:
