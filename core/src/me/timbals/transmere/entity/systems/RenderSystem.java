@@ -5,11 +5,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import me.timbals.transmere.Game;
 import me.timbals.transmere.entity.Mappers;
 import me.timbals.transmere.entity.components.PositionComponent;
+import me.timbals.transmere.entity.components.RotationComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
 import me.timbals.transmere.entity.components.TextureComponent;
 
@@ -41,8 +43,18 @@ public class RenderSystem extends EntitySystem {
             PositionComponent positionComponent = Mappers.positionMapper.get(entity);
             TextureComponent textureComponent = Mappers.textureMapper.get(entity);
             SizeComponent sizeComponent = Mappers.sizeMapper.get(entity);
+            RotationComponent rotationComponent = Mappers.rotationMapper.get(entity);
 
-            if(sizeComponent != null) {
+            if(rotationComponent != null) {
+                Sprite sprite = new Sprite(textureComponent.texture);
+                sprite.setPosition(positionComponent.x, positionComponent.y);
+                if(sizeComponent != null) {
+                    sprite.setSize(sizeComponent.width, sizeComponent.height);
+                    sprite.setOriginCenter();
+                }
+                sprite.setRotation(rotationComponent.rotation * 90);
+                sprite.draw(batch);
+            } else if(sizeComponent != null) {
                 batch.draw(
                         textureComponent.texture,
                         positionComponent.x,

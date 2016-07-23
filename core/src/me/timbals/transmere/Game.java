@@ -21,6 +21,7 @@ import me.timbals.transmere.entity.components.CollisionComponent;
 import me.timbals.transmere.entity.components.HealthComponent;
 import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
+import me.timbals.transmere.entity.components.RotationComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
 import me.timbals.transmere.entity.components.TextureComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
@@ -107,6 +108,8 @@ public class Game extends ApplicationAdapter {
 		entity.add(entityEngine.createComponent(HealthComponent.class));
 
 		entity.add(entityEngine.createComponent(CollisionComponent.class));
+
+		entity.add(entityEngine.createComponent(RotationComponent.class));
 
 		entityEngine.addEntity(entity);
 	}
