@@ -2,6 +2,7 @@ package me.timbals.transmere;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -54,6 +55,10 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		Gdx.app.setLogLevel(Debug.log ? Application.LOG_DEBUG : Application.LOG_INFO);
+
+		Gdx.gl.glClearColor(1, 1, 1, 0);
+
 		entityEngine = new PooledEngine();
 
 		batch = new SpriteBatch();
@@ -150,7 +155,6 @@ public class Game extends ApplicationAdapter {
 		Level.setView(camera);
 		batch.setProjectionMatrix(camera.combined);
 
-		Gdx.gl.glClearColor(1, 1, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Level.render();
