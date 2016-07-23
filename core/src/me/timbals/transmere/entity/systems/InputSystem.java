@@ -2,13 +2,21 @@ package me.timbals.transmere.entity.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 
+import me.timbals.transmere.Game;
 import me.timbals.transmere.entity.Mappers;
+import me.timbals.transmere.entity.components.DespawnComponent;
+import me.timbals.transmere.entity.components.FreezeComponent;
 import me.timbals.transmere.entity.components.InputComponent;
+import me.timbals.transmere.entity.components.PositionComponent;
 import me.timbals.transmere.entity.components.RotationComponent;
+import me.timbals.transmere.entity.components.SizeComponent;
+import me.timbals.transmere.entity.components.TextureComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
 
 /**
@@ -18,6 +26,8 @@ public class InputSystem extends IteratingSystem {
 
     private static final float speed = 6f;
     private static final float diagonalSpeed = 4f;
+
+    private static final float attackDuration = 0.2f;
 
     private int[] ticksPressed = new int[4];
 
@@ -29,6 +39,7 @@ public class InputSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         VelocityComponent velocityComponent = Mappers.velocityMapper.get(entity);
         RotationComponent rotationComponent = Mappers.rotationMapper.get(entity);
+        PositionComponent positionComponent = Mappers.positionMapper.get(entity);
 
         if(Gdx.input.isKeyPressed(Input.Keys.W)) {
             velocityComponent.y = speed;
@@ -56,6 +67,55 @@ public class InputSystem extends IteratingSystem {
             ticksPressed[1] = 0;
             ticksPressed[3] = 0;
             velocityComponent.x = 0;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.V)
+                && positionComponent != null
+                && rotationComponent != null
+                && !Mappers.freezeMapper.has(entity)) {
+            PooledEngine entityEngine = Game.getEntityEngine();
+            Entity sword = entityEngine.createEntity();
+
+            SizeComponent swordSizeComponent = entityEngine.createComponent(SizeComponent.class);
+            swordSizeComponent.width = 48;
+            swordSizeComponent.height = 48;
+            sword.add(swordSizeComponent);
+
+            PositionComponent swordPositionComponent = entityEngine.createComponent(PositionComponent.class);
+            swordPositionComponent.x = positionComponent.x;
+            swordPositionComponent.y = positionComponent.y;
+            sword.add(swordPositionComponent);
+
+            TextureComponent swordTextureComponent = entityEngine.createComponent(TextureComponent.class);
+            swordTextureComponent.texture = new Texture("badlogic.jpg");
+            sword.add(swordTextureComponent);
+
+            DespawnComponent swordDespawnComponent = entityEngine.createComponent(DespawnComponent.class);
+            swordDespawnComponent.duration = attackDuration * Game.TARGET_FPS;
+            sword.add(swordDespawnComponent);
+
+            switch(rotationComponent.rotation) {
+                case 0:
+                    swordPositionComponent.y += swordSizeComponent.height;
+                    break;
+                case 1:
+                    swordPositionComponent.x -= swordSizeComponent.width;
+                    break;
+                case 2:
+                    swordPositionComponent.y -= swordSizeComponent.height;
+                    break;
+                case 3:
+                    swordPositionComponent.x += swordSizeComponent.width;
+                    break;
+                default:
+                    break;
+            }
+
+            entityEngine.addEntity(sword);
+
+            FreezeComponent freezeComponent = entityEngine.createComponent(FreezeComponent.class);
+            freezeComponent.duration = attackDuration * Game.TARGET_FPS;
+            entity.add(freezeComponent);
         }
 
         if(velocityComponent.x == speed && velocityComponent.y == speed) {

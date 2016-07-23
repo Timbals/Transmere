@@ -20,6 +20,10 @@ public class MovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        if(Mappers.freezeMapper.has(entity)) {
+            return;
+        }
+
         PositionComponent positionComponent = Mappers.positionMapper.get(entity);
         VelocityComponent velocityComponent = Mappers.velocityMapper.get(entity);
 
