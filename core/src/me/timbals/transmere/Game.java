@@ -16,11 +16,14 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.Random;
+
 import me.timbals.transmere.entity.components.CameraFollowComponent;
 import me.timbals.transmere.entity.components.CollisionComponent;
 import me.timbals.transmere.entity.components.HealthComponent;
 import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
+import me.timbals.transmere.entity.components.RandomMovementComponent;
 import me.timbals.transmere.entity.components.RotationComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
 import me.timbals.transmere.entity.components.SpriteComponent;
@@ -31,6 +34,7 @@ import me.timbals.transmere.entity.systems.DespawnSystem;
 import me.timbals.transmere.entity.systems.FreezeSystem;
 import me.timbals.transmere.entity.systems.InputSystem;
 import me.timbals.transmere.entity.systems.MovementSystem;
+import me.timbals.transmere.entity.systems.RandomMovementSystem;
 import me.timbals.transmere.entity.systems.RenderSystem;
 import me.timbals.transmere.level.Level;
 
@@ -40,6 +44,8 @@ public class Game extends ApplicationAdapter {
 	public static final int HEIGHT = 720;
 	public static int SCREEN_WIDTH = WIDTH;
 	public static int SCREEN_HEIGHT = HEIGHT;
+
+	public static final Random RANDOM = new Random();
 
 	public static final float TARGET_FPS = 60;
 
@@ -75,6 +81,7 @@ public class Game extends ApplicationAdapter {
 		entityEngine.addSystem(new CollisionSystem());
 		entityEngine.addSystem(new FreezeSystem());
 		entityEngine.addSystem(new DespawnSystem());
+		entityEngine.addSystem(new RandomMovementSystem());
 
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -125,7 +132,7 @@ public class Game extends ApplicationAdapter {
 
 		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
 		positionComponent.x = WIDTH / 2;
-		positionComponent.y = 96 * 64;
+		positionComponent.y = 93 * 64;
 		entity.add(positionComponent);
 
 		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
@@ -139,6 +146,12 @@ public class Game extends ApplicationAdapter {
 		entity.add(spriteComponent);
 
 		entity.add(entityEngine.createComponent(HealthComponent.class));
+
+		entity.add(entityEngine.createComponent(VelocityComponent.class));
+
+		entity.add(entityEngine.createComponent(RandomMovementComponent.class));
+
+		entity.add(entityEngine.createComponent(CollisionComponent.class));
 
 		entityEngine.addEntity(entity);
 	}

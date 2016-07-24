@@ -8,6 +8,7 @@ import me.timbals.transmere.entity.components.FreezeComponent;
 import me.timbals.transmere.entity.components.HealthComponent;
 import me.timbals.transmere.entity.components.InputComponent;
 import me.timbals.transmere.entity.components.PositionComponent;
+import me.timbals.transmere.entity.components.RandomMovementComponent;
 import me.timbals.transmere.entity.components.RotationComponent;
 import me.timbals.transmere.entity.components.SizeComponent;
 import me.timbals.transmere.entity.components.SpriteComponent;
@@ -28,5 +29,6 @@ public class Mappers {
     public static final ComponentMapper<RotationComponent> rotationMapper = ComponentMapper.getFor(RotationComponent.class);
     public static final ComponentMapper<FreezeComponent> freezeMapper = ComponentMapper.getFor(FreezeComponent.class);
     public static final ComponentMapper<DespawnComponent> despawnMapper = ComponentMapper.getFor(DespawnComponent.class);
+    public static final ComponentMapper<RandomMovementComponent> randomMovementMapper = ComponentMapper.getFor(RandomMovementComponent.class);
 
 }
