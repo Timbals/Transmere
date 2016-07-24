@@ -34,7 +34,6 @@ import me.timbals.transmere.entity.systems.DespawnSystem;
 import me.timbals.transmere.entity.systems.FreezeSystem;
 import me.timbals.transmere.entity.systems.InputSystem;
 import me.timbals.transmere.entity.systems.MovementSystem;
-import me.timbals.transmere.entity.systems.RandomMovementSystem;
 import me.timbals.transmere.entity.systems.RenderSystem;
 import me.timbals.transmere.level.Level;
 
@@ -81,7 +80,6 @@ public class Game extends ApplicationAdapter {
 		entityEngine.addSystem(new CollisionSystem());
 		entityEngine.addSystem(new FreezeSystem());
 		entityEngine.addSystem(new DespawnSystem());
-		entityEngine.addSystem(new RandomMovementSystem());
 
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
