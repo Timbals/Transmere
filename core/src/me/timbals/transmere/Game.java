@@ -30,6 +30,7 @@ import me.timbals.transmere.entity.components.SpriteComponent;
 import me.timbals.transmere.entity.components.VelocityComponent;
 import me.timbals.transmere.entity.systems.CameraFollowSystem;
 import me.timbals.transmere.entity.systems.CollisionSystem;
+import me.timbals.transmere.entity.systems.DamageSystem;
 import me.timbals.transmere.entity.systems.DespawnSystem;
 import me.timbals.transmere.entity.systems.FreezeSystem;
 import me.timbals.transmere.entity.systems.InputSystem;
@@ -80,6 +81,7 @@ public class Game extends ApplicationAdapter {
 		entityEngine.addSystem(new CollisionSystem());
 		entityEngine.addSystem(new FreezeSystem());
 		entityEngine.addSystem(new DespawnSystem());
+		entityEngine.addSystem(new DamageSystem());
 
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));

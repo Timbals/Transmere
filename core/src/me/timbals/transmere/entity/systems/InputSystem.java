@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import me.timbals.transmere.Game;
 import me.timbals.transmere.entity.Mappers;
+import me.timbals.transmere.entity.components.CombatComponent;
 import me.timbals.transmere.entity.components.DespawnComponent;
 import me.timbals.transmere.entity.components.FreezeComponent;
 import me.timbals.transmere.entity.components.InputComponent;
@@ -98,6 +99,8 @@ public class InputSystem extends IteratingSystem {
             RotationComponent swordRotationComponent = entityEngine.createComponent(RotationComponent.class);
             swordRotationComponent.rotation = rotationComponent.rotation;
             sword.add(swordRotationComponent);
+
+            sword.add(entityEngine.createComponent(CombatComponent.class));
 
             switch(rotationComponent.rotation) {
                 case 0:

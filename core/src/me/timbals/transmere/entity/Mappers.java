@@ -3,6 +3,7 @@ package me.timbals.transmere.entity;
 import com.badlogic.ashley.core.ComponentMapper;
 
 import me.timbals.transmere.entity.components.CameraFollowComponent;
+import me.timbals.transmere.entity.components.CombatComponent;
 import me.timbals.transmere.entity.components.DespawnComponent;
 import me.timbals.transmere.entity.components.FreezeComponent;
 import me.timbals.transmere.entity.components.HealthComponent;
@@ -30,5 +31,6 @@ public class Mappers {
     public static final ComponentMapper<FreezeComponent> freezeMapper = ComponentMapper.getFor(FreezeComponent.class);
     public static final ComponentMapper<DespawnComponent> despawnMapper = ComponentMapper.getFor(DespawnComponent.class);
     public static final ComponentMapper<RandomMovementComponent> randomMovementMapper = ComponentMapper.getFor(RandomMovementComponent.class);
+    public static final ComponentMapper<CombatComponent> comaptMapper = ComponentMapper.getFor(CombatComponent.class);
 
 }
