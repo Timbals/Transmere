@@ -88,7 +88,11 @@ public class Game extends ApplicationAdapter {
 
 		Level.loadMap("dev.tmx");
 
-		addEnemy();
+		addEnemy(5, 5);
+		addEnemy(11, 8);
+		addEnemy(21, 4);
+		addEnemy(30, 4);
+		addEnemy(25, 15);
 		addPlayer();
 	}
 
@@ -127,12 +131,12 @@ public class Game extends ApplicationAdapter {
 	}
 
 	// temporary
-	public void addEnemy() {
+	public void addEnemy(int x, int y) {
 		Entity entity = entityEngine.createEntity();
 
 		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
-		positionComponent.x = WIDTH / 2;
-		positionComponent.y = 93 * 64;
+		positionComponent.x = x * 64;
+		positionComponent.y = (99 - y) * 64;
 		entity.add(positionComponent);
 
 		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
