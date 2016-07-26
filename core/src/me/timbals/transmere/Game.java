@@ -1,15 +1,12 @@
 package me.timbals.transmere;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -18,16 +15,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
 
-import me.timbals.transmere.entity.components.CameraFollowComponent;
-import me.timbals.transmere.entity.components.CollisionComponent;
-import me.timbals.transmere.entity.components.HealthComponent;
-import me.timbals.transmere.entity.components.InputComponent;
-import me.timbals.transmere.entity.components.PositionComponent;
-import me.timbals.transmere.entity.components.RandomMovementComponent;
-import me.timbals.transmere.entity.components.RotationComponent;
-import me.timbals.transmere.entity.components.SizeComponent;
-import me.timbals.transmere.entity.components.SpriteComponent;
-import me.timbals.transmere.entity.components.VelocityComponent;
 import me.timbals.transmere.entity.systems.CameraFollowSystem;
 import me.timbals.transmere.entity.systems.CollisionSystem;
 import me.timbals.transmere.entity.systems.DamageSystem;
@@ -37,8 +24,9 @@ import me.timbals.transmere.entity.systems.InputSystem;
 import me.timbals.transmere.entity.systems.MovementSystem;
 import me.timbals.transmere.entity.systems.RenderSystem;
 import me.timbals.transmere.level.Level;
+import me.timbals.transmere.screens.MenuScreen;
 
-public class Game extends ApplicationAdapter {
+public class Game extends com.badlogic.gdx.Game {
 
 	public static final int WIDTH = 1280; // virtual resolution for pixel coordinates
 	public static final int HEIGHT = 720;
@@ -66,7 +54,7 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		Gdx.app.setLogLevel(Debug.log ? Application.LOG_DEBUG : Application.LOG_INFO);
 
-		Gdx.gl.glClearColor(1, 1, 1, 0);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 
 		entityEngine = new PooledEngine();
 
@@ -86,78 +74,7 @@ public class Game extends ApplicationAdapter {
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 
-		Level.loadMap("dev.tmx");
-
-		addEnemy(5, 5);
-		addEnemy(11, 8);
-		addEnemy(21, 4);
-		addEnemy(30, 4);
-		addEnemy(25, 15);
-		addPlayer();
-	}
-
-	// temporary
-	public void addPlayer() {
-		Entity entity = entityEngine.createEntity();
-
-		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
-		positionComponent.x = WIDTH / 2;
-		positionComponent.y = 85 * 64;
-		entity.add(positionComponent);
-
-		entity.add(entityEngine.createComponent(VelocityComponent.class));
-
-		SpriteComponent spriteComponent = entityEngine.createComponent(SpriteComponent.class);
-		spriteComponent.sprite.setTexture(new Texture("badlogic.jpg"));
-		spriteComponent.sprite.setRegion(spriteComponent.sprite.getTexture());
-		entity.add(spriteComponent);
-
-		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
-		sizeComponent.width = 48;
-		sizeComponent.height = 48;
-		entity.add(sizeComponent);
-
-		entity.add(entityEngine.createComponent(InputComponent.class));
-
-		entity.add(entityEngine.createComponent(CameraFollowComponent.class));
-
-		entity.add(entityEngine.createComponent(HealthComponent.class));
-
-		entity.add(entityEngine.createComponent(CollisionComponent.class));
-
-		entity.add(entityEngine.createComponent(RotationComponent.class));
-
-		entityEngine.addEntity(entity);
-	}
-
-	// temporary
-	public void addEnemy(int x, int y) {
-		Entity entity = entityEngine.createEntity();
-
-		PositionComponent positionComponent = entityEngine.createComponent(PositionComponent.class);
-		positionComponent.x = x * 64;
-		positionComponent.y = (99 - y) * 64;
-		entity.add(positionComponent);
-
-		SizeComponent sizeComponent = entityEngine.createComponent(SizeComponent.class);
-		sizeComponent.width = 48;
-		sizeComponent.height = 48;
-		entity.add(sizeComponent);
-
-		SpriteComponent spriteComponent = entityEngine.createComponent(SpriteComponent.class);
-		spriteComponent.sprite.setTexture(new Texture("badlogic.jpg"));
-		spriteComponent.sprite.setRegion(spriteComponent.sprite.getTexture());
-		entity.add(spriteComponent);
-
-		entity.add(entityEngine.createComponent(HealthComponent.class));
-
-		entity.add(entityEngine.createComponent(VelocityComponent.class));
-
-		entity.add(entityEngine.createComponent(RandomMovementComponent.class));
-
-		entity.add(entityEngine.createComponent(CollisionComponent.class));
-
-		entityEngine.addEntity(entity);
+		setScreen(new MenuScreen());
 	}
 
 	@Override
@@ -184,7 +101,9 @@ public class Game extends ApplicationAdapter {
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		Level.render();
+		batch.begin();
+		super.render();
+		batch.end();
 
 		entityEngine.update(delta);
 	}
@@ -217,6 +136,7 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void dispose () {
+		assetManager.dispose();
 	}
 
 }
