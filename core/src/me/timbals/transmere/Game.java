@@ -28,6 +28,8 @@ import me.timbals.transmere.screens.MenuScreen;
 
 public class Game extends com.badlogic.gdx.Game {
 
+	public static final String NAME = "Transmere";
+
 	public static final int WIDTH = 1280; // virtual resolution for pixel coordinates
 	public static final int HEIGHT = 720;
 	public static int SCREEN_WIDTH = WIDTH;

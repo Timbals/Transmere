@@ -15,6 +15,7 @@ public class MenuScreen implements Screen {
 
     public static final String TEXT = "Press any key to start!";
 
+    private BitmapFont titleFont;
     private BitmapFont font;
     private GlyphLayout glyphLayout;
 
@@ -23,8 +24,16 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        glyphLayout.setText(titleFont, Game.NAME);
+        titleFont.draw(Game.getBatch(),
+                Game.NAME,
+                Game.WIDTH / 2 - glyphLayout.width / 2,
+                Game.HEIGHT - Game.HEIGHT / 8 - glyphLayout.height / 2);
+
+        glyphLayout.setText(font, TEXT);
         font.draw(Game.getBatch(),
-                TEXT, Game.WIDTH / 2 - glyphLayout.width / 2,
+                TEXT,
+                Game.WIDTH / 2 - glyphLayout.width / 2,
                 Game.HEIGHT / 2 - glyphLayout.height / 2);
 
 
@@ -37,7 +46,8 @@ public class MenuScreen implements Screen {
     public void show() {
         font = new BitmapFont();
         glyphLayout = new GlyphLayout();
-        glyphLayout.setText(font, TEXT);
+        titleFont = new BitmapFont();
+        titleFont.getData().setScale(5);
     }
 
     @Override
