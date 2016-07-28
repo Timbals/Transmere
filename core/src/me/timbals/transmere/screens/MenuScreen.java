@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 
 import me.timbals.transmere.Game;
 
@@ -44,10 +45,15 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
+        FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        size1Params.fontFileName = "Roboto-Regular.ttf";
+        size1Params.fontParameters.size = 100;
+        Game.getAssetManager().load("size100.ttf", BitmapFont.class, size1Params);
+        Game.getAssetManager().finishLoadingAsset("size100.ttf");
+
         font = new BitmapFont();
         glyphLayout = new GlyphLayout();
-        titleFont = new BitmapFont();
-        titleFont.getData().setScale(5);
+        titleFont = Game.getAssetManager().get("size100.ttf", BitmapFont.class);
     }
 
     @Override
